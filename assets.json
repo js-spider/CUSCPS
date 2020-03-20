@@ -1,7 +1,7 @@
 {
-  "vendors.css": "/compassComps/static/css/vendors.78d0b534924433947974.css",
-  "vendors.js": "/compassComps/static/js/vendors.bddafa0f.js",
-  "app.js": "/compassComps/static/js/app.78d0b534924433947974.js",
-  "src-resource-config-index.js": "/compassComps/static/js/src-resource-config-index.4ef476c1.js",
-  "index.html": "/compassComps/index.html"
+  "vendors.css": "/CUSCPS/static/css/vendors.9130b4e5be1c62fd2a69.css",
+  "vendors.js": "/CUSCPS/static/js/vendors.7a067e56.js",
+  "app.js": "/CUSCPS/static/js/app.9130b4e5be1c62fd2a69.js",
+  "src-resource-config-index.js": "/CUSCPS/static/js/src-resource-config-index.4ef476c1.js",
+  "index.html": "/CUSCPS/index.html"
 }
