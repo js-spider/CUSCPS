@@ -196,6 +196,7 @@ export class Demo4 extends React.Component{
     ]
     return (
       <Resource
+        itemWidth={320}
         applyRules={applyRules}
         type={type}
         data={data}

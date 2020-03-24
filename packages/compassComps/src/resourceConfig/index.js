@@ -2,10 +2,10 @@ import React from 'react';
 import Pt from 'prop-types';
 import { Form, Input,InputNumber,Tooltip, Icon, Switch, Select } from 'antd';
 import { ResourceBasic , ResourceFormBasic} from './ResourceBasic';
-
+import styles from './index.less';
 
 const _toFixed = (data=0,num=3) => {
-  let n2s =  data.toFixed(num);
+  let n2s =  Number(data).toFixed(num);
   if(n2s.split('.')[1] === '000') n2s = n2s.split('.')[0];
   return n2s;
 
@@ -25,7 +25,13 @@ const createForm = (component)=> {
         fields.rule = Form.createFormField({value:data.value.id})
       }
       Object.keys(data.value).forEach(key=>{
-        fields[key] = Form.createFormField({value:data.value[key]})
+        if(data.value[key]){
+          if(key ==='mem' || key.endsWith('Mem')){
+            fields[key] = Form.createFormField({value:_toFixed(data.value[key]/1024)})
+          }
+        }else{
+          fields[key] = Form.createFormField({value:data.value[key]})
+        }
       });
       return fields;
     },
@@ -87,6 +93,7 @@ export default class Resource extends React.Component{
     }
     this.timer = null;
   }
+
   componentDidMount() {
     const { type, form } = this.props;
     // const resourceType = form || type.startsWith('basic-') ? ResourceBasic : createForm(ResourceFormBasic)  ;
@@ -103,7 +110,11 @@ export default class Resource extends React.Component{
   onChange=(key,e, currentForm) => {
     const { data, onChange } = this.props;
     const val = e && e.currentTarget ? {[key]:_toFixed(Number(e.currentTarget.value))} : {[key]:_toFixed(Number(e))};
-    data.value[key] = val[key]
+    if(key ==='mem' || key.endsWith('Mem')){
+      data.value[key] = _toFixed(val[key])*1024
+    }else{
+      data.value[key] = val[key]
+    }
     setTimeout(()=>{
       currentForm.validateFields([key],(err)=>{
         if(!err){
@@ -397,13 +408,19 @@ export default class Resource extends React.Component{
                     placeholder="Select a person"
                     optionFilterProp="children"
                     onChange = {(val)=>{this.onSelectSpecChange('rule',val)}}
+                    defaultOpen={true}
                   >
                     {applyRules.map((item)=>(
                       <Select.Option value={item[applyKey]}>
                         <div>
-                          <span style={{display:'inline-block',marginRight:15,fontSize:14,fontWeight:600}}>{item.name}</span>
-                          <span>{`(${item.dirverCpu}C | ${_toFixed(item.dirverMem/1024)}GB | (${item.executorCpu} | ${_toFixed(item.executorMem/1024)}) * ${item.executorCount})`}</span>
-                          <p sytle={{paddingLeft:30,color:'gray'}}>{item.config}</p>
+                          <span className={'optionsName'} style={{marginRight:10,fontWeight:600}}>{item.name}</span>
+                          <span>{`(${item.dirverCpu}C | ${_toFixed(item.dirverMem/1024)}GB | (${item.executorCpu}C | ${_toFixed(item.executorMem/1024)}GB) * ${item.executorCount})`}</span>
+                          { Object.keys(JSON.parse(item.config)).map(key=>{
+                            return <span className={'optionsConfig'} style={{paddingLeft:20}}>
+                              {`${key} = ${JSON.parse(item.config)[key]}`}
+                            </span>
+                          })}
+
                         </div>
                       </Select.Option>
                     ))}
