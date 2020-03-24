@@ -13,12 +13,13 @@
     "dev": "father doc dev",
     "build": "yarn build:doc",
     "build:doc": "father doc build",
-    "deploy": " yarn build:doc && father doc deploy"
+    "deploy": "father doc build && father doc deploy"
   },
   "peerDependencies": {
     "react": "16.x"
   },
   "devDependencies": {
+    "docz-theme-default": "^1.2.0",
     "father": "^2.16.0",
     "react-powerplug": "^1.0.0"
   },

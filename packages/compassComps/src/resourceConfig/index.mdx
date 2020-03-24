@@ -27,7 +27,7 @@ import Resource from './';
             <State initial={init}>
                {({ state, setState }) => {
                     return (
-                      <Demo1 apply={state.apply} type={state.type} data={state.data} config={state.config}/>
+                      <Demo1 type={state.type} data={{apply:state.apply,value:state.data}} config={state.config}/>
                     )
                  }}
             </State>
@@ -48,7 +48,7 @@ import Resource from './';
             <State initial={init}>
                {({ state, setState }) => {
                     return (
-                      <Demo2 apply={state.apply} type={state.type} data={state.data} config={state.config}/>
+                      <Demo2 type={state.type} data={{apply:state.apply,value:state.data}} config={state.config}/>
                     )
                  }}
             </State>

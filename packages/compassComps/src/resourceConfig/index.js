@@ -3,26 +3,34 @@ import Pt from 'prop-types';
 import { Form, Input,InputNumber,Tooltip, Icon, Switch, Select } from 'antd';
 import { ResourceBasic , ResourceFormBasic} from './ResourceBasic';
 
+
+const _toFixed = (data=0,num=3) => {
+  let n2s =  data.toFixed(num);
+  if(n2s.split('.')[1] === '000') n2s = n2s.split('.')[0];
+  return n2s;
+
+}
+
 const createForm = (component)=> {
   return Form.create({
     mapPropsToFields(props){
-      const { apply,data,model,rule } = props;
+      const { data } = props;
       const fields = {
-        apply: Form.createFormField({value:apply}),
+        apply: Form.createFormField({value:data.apply}),
       };
-      if(model){
-        fields.model = Form.createFormField({value:model})
+      if(data.model){
+        fields.model = Form.createFormField({value:data.model})
       }
-      if(apply){
-        fields.rule = Form.createFormField({value:rule})
+      if(data.apply){
+        fields.rule = Form.createFormField({value:data.value.id})
       }
-      Object.keys(data).forEach(key=>{
-        fields[key] = Form.createFormField({value:data[key]})
+      Object.keys(data.value).forEach(key=>{
+        fields[key] = Form.createFormField({value:data.value[key]})
       });
       return fields;
     },
     onValuesChange(props, changedValues, allValues){
-      console.log('onValuesChange >>> ',changedValues,allValues);
+      // console.log('onValuesChange >>> ',changedValues,allValues);
       // props.form.validateFields(Object.keys(changedValues))
     }
   })(component)
@@ -35,9 +43,6 @@ export default class Resource extends React.Component{
   static propTypes = {
     /** 组件类型 */
     type:Pt.oneOf(['basic-alone','basic-dis','alone','distributed']),
-
-    /** 是否启用 引用规格 默认值: true */
-    apply:Pt.bool,
 
     /** 输入框的配置说明 设置输入框的最大限额 */
     config:Pt.object,
@@ -59,12 +64,20 @@ export default class Resource extends React.Component{
 
   };
   static defaultProps = {
-    apply:false,
     itemWidth:260,
     extra:true,
     type:'basic-alone',
     config:{},
-    data:{}
+    data:{
+      //是否开启应用
+      apply:false,
+      // 值
+      value:{},
+      // 运行模式
+      model:'',
+      // 应用规格id
+      rule:'',
+    }
   };
 
   constructor(props){
@@ -89,11 +102,12 @@ export default class Resource extends React.Component{
 
   onChange=(key,e, currentForm) => {
     const { data, onChange } = this.props;
-    const val = e && e.currentTarget ? {[key]:e.currentTarget.value} : {[key]:e};
+    const val = e && e.currentTarget ? {[key]:_toFixed(Number(e.currentTarget.value))} : {[key]:_toFixed(Number(e))};
+    data.value[key] = val[key]
     setTimeout(()=>{
       currentForm.validateFields([key],(err)=>{
         if(!err){
-          onChange(key,val,{data:{...data,...val}})
+          onChange(key,val,{...data})
         }
       })
     },0)
@@ -102,23 +116,30 @@ export default class Resource extends React.Component{
   onSwitchChange = (key,val) => {
     const { data, onChange } = this.props;
     const changeData = {[key]:val};
-    onChange(key,changeData,{data:{...data},...changeData});
+    // onChange(key,changeData,{data:{...data},...changeData});
+    onChange(key,changeData,{...data,...changeData,value:{}});
   }
 
-  onSelectChange = (key,val) => {
-    const { applyRules, onChange, apply } = this.props;
-    const data = applyRules.filter(item=>(item[applyKey] === val))[0] || {};
-    const allData = {data:{...data},apply};
+  onSelectSpecChange = (key,val) => {
+    const { applyRules, onChange, data } = this.props;
+    const value = applyRules.filter(item=>(item[applyKey] === val))[0] || {};
+    const allData = {...data,value:{...value}};
     allData[key] = val;
     onChange('rule',{[key]:val},allData)
+  }
+
+  onSelectModelChange = (key,val) => {
+    const { data,onChange } = this.props;
+    const allData = {...data,model:val};
+    onChange(key,{[key]:val},allData)
   }
 
   render(){
     const ResourceType  = this.state.resourceType;
     const layout = {labelCol: { span: 4 }, wrapperCol: { span: 20 }};
-    const { apply,itemWidth, extra, type,applyRules, config }  = this.props;
+    const { data,itemWidth, extra, type,applyRules, config }  = this.props;
     // if(!form && type.startsWith('basic-')) throw new Error('type 为 基础组件时 必须使用在Form中')
-
+    const {apply} = data;
     const itemBase = {
       // 单机基础组件
       standAloneBase: (currentForm)=>(<React.Fragment>
@@ -132,7 +153,7 @@ export default class Resource extends React.Component{
                 required: true,
               }],
             })(
-              <InputNumber style={{width:itemWidth}} onChange={(e)=>{this.onChange('cpu',e,currentForm)}} max={config.cpu}></InputNumber>
+              <InputNumber style={{width:itemWidth}} onChange={(e)=>{this.onChange('cpu',e,currentForm)}} max={config.cpu} min={0}></InputNumber>
             )
           }
           {extra && <span style={{marginLeft:15}}> {`CPU 可配置资源 ${config.cpu} 核`}</span>}
@@ -145,7 +166,7 @@ export default class Resource extends React.Component{
             currentForm.getFieldDecorator('mem',{
               rules:[{required: true}]
             })(
-              <InputNumber style={{width:itemWidth}} onChange={(e)=>{this.onChange('mem',e,currentForm)}} max={config.mem}></InputNumber>
+              <InputNumber style={{width:itemWidth}} onChange={(e)=>{this.onChange('mem',e,currentForm)}} max={config.mem} min={0}></InputNumber>
             )
           }
           {extra && <span style={{marginLeft:15}}> {`MEM可配置资源 ${config.mem} GB`}</span>}
@@ -157,7 +178,7 @@ export default class Resource extends React.Component{
           {
             currentForm.getFieldDecorator('gpu',{
             })(
-              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('gpu',e,currentForm))} max={config.gpu}></InputNumber>
+              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('gpu',e,currentForm))} max={config.gpu} min={0}></InputNumber>
             )
           }
           {extra && <span style={{marginLeft:15}}> {`GPU可配置资源 ${config.gpu}`}</span>}
@@ -174,7 +195,7 @@ export default class Resource extends React.Component{
             currentForm.getFieldDecorator('driverCpu',{
               rules:[{required: true}]
             })(
-              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('driverCpu',e,currentForm))} max={config.driverCpu}></InputNumber>
+              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('driverCpu',e,currentForm))} max={config.driverCpu} min={0}></InputNumber>
             )
           }
           {extra && <span style={{marginLeft:15}}> {`可配置资源 ${config.driverCpu} 核`} </span>}
@@ -187,7 +208,7 @@ export default class Resource extends React.Component{
             currentForm.getFieldDecorator('driverMem',{
               rules:[{required: true}]
             })(
-              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('driverMem',e,currentForm))} max={config.driverMem}></InputNumber>
+              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('driverMem',e,currentForm))} max={config.driverMem} min={0}></InputNumber>
             )
           }
           {extra && <span style={{marginLeft:15}}> {`配置资源 ${config.driverMem} GB`}</span>}
@@ -200,7 +221,7 @@ export default class Resource extends React.Component{
             currentForm.getFieldDecorator('executorCpu',{
               rules:[{required: true}]
             })(
-              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('executorCpu',e,currentForm))} max={config.executorCpu} ></InputNumber>
+              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('executorCpu',e,currentForm))} max={config.executorCpu} min={0}></InputNumber>
             )
           }
           {extra && <span style={{marginLeft:15}}> {`可配置资源 ${config.executorCpu} 核`}</span>}
@@ -213,7 +234,7 @@ export default class Resource extends React.Component{
             currentForm.getFieldDecorator('executorMem',{
               rules:[{required: true}]
             })(
-              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('executorMem',e,currentForm))} max={config.executorMem}></InputNumber>
+              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('executorMem',e,currentForm))} max={config.executorMem} min={0}></InputNumber>
             )
           }
           {extra && <span style={{marginLeft:15}}> {`可配置资源 ${config.executorMem} GB`}</span>}
@@ -226,7 +247,7 @@ export default class Resource extends React.Component{
             currentForm.getFieldDecorator('executorNum',{
               rules:[{required: true}]
             })(
-              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('executorNum',e,currentForm))} max={config.executorNum} ></InputNumber>
+              <InputNumber style={{width:itemWidth}} onChange={(e)=>(this.onChange('executorNum',e,currentForm))} max={config.executorNum} min={0}></InputNumber>
             )
           }
           {extra && <span style={{marginLeft:15}}> {`可配置资源 ${config.executorNum}`}</span>}
@@ -276,10 +297,16 @@ export default class Resource extends React.Component{
                     style={{ width: itemWidth }}
                     placeholder="Select a person"
                     optionFilterProp="children"
-                    onChange={(val)=>{this.onSelectChange('rule',val)}}
+                    onChange={(val)=>{this.onSelectSpecChange('rule',val)}}
                   >
                     {applyRules.map((item,index)=>(
-                      <Select.Option value={item[applyKey]}>{JSON.stringify(item)}</Select.Option>
+                      <Select.Option value={item[applyKey]}>
+                        <div>
+                          <span style={{display:'inline-block',marginRight:15,fontSize:14,fontWeight:600}}>{item.name}</span>
+                          <span>{`(${item.cpu}C | ${_toFixed(item.mem/1024)}GB | ${item.gpu}S)`}</span>
+                          <p sytle={{paddingLeft:30,color:'gray'}}>{item.config}</p>
+                        </div>
+                      </Select.Option>
                     ))}
                   </Select>
                 )
@@ -333,7 +360,7 @@ export default class Resource extends React.Component{
                 style={{ width: itemWidth }}
                 placeholder="Select model"
                 optionFilterProp="children"
-                onChange = {(val)=>{this.onSelectChange('model',val)}}
+                onChange = {(val)=>{this.onSelectModelChange('model',val)}}
               >
                 <Select.Option value="jack">智能加速模式</Select.Option>
                 <Select.Option value="lucy">经济模式</Select.Option>
@@ -369,11 +396,16 @@ export default class Resource extends React.Component{
                     style={{ width: itemWidth }}
                     placeholder="Select a person"
                     optionFilterProp="children"
-                    onChange = {(val)=>{this.onSelectChange('rule',val)}}
+                    onChange = {(val)=>{this.onSelectSpecChange('rule',val)}}
                   >
-                    <Select.Option value={''}>请选择规格</Select.Option>
                     {applyRules.map((item)=>(
-                      <Select.Option value={item[applyKey]}>{JSON.stringify(item)}</Select.Option>
+                      <Select.Option value={item[applyKey]}>
+                        <div>
+                          <span style={{display:'inline-block',marginRight:15,fontSize:14,fontWeight:600}}>{item.name}</span>
+                          <span>{`(${item.dirverCpu}C | ${_toFixed(item.dirverMem/1024)}GB | (${item.executorCpu} | ${_toFixed(item.executorMem/1024)}) * ${item.executorCount})`}</span>
+                          <p sytle={{paddingLeft:30,color:'gray'}}>{item.config}</p>
+                        </div>
+                      </Select.Option>
                     ))}
                   </Select>
                 )
@@ -392,7 +424,7 @@ export default class Resource extends React.Component{
                 style={{ width: itemWidth }}
                 placeholder="Select model"
                 optionFilterProp="children"
-                onChange = {(val)=>{this.onSelectChange('model',val)}}
+                onChange = {(val)=>{this.onSelectModelChange('model',val)}}
               >
                 <Select.Option value="jack">智能加速模式</Select.Option>
                 <Select.Option value="lucy">经济模式</Select.Option>
