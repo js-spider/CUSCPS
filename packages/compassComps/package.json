@@ -27,6 +27,7 @@
   "dependencies": {
     "antd": "^3.26.12",
     "babel-plugin-import": "^1.13.0",
+    "classnames": "^2.2.6",
     "prop-types": "^15.7.2"
   }
 }

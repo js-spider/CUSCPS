@@ -76,7 +76,7 @@ export class Demo3 extends React.Component{
     this.state = {
       type: 'alone',
       data: {
-        apply: false,
+        apply: true,
         value:{}
       },
       applyRules:[
@@ -143,7 +143,7 @@ export class Demo4 extends React.Component{
     this.state = {
       type: 'distributed',
       data: {
-        apply:false,
+        apply:true,
         value:{}
       },
       applyRules:[
@@ -209,3 +209,195 @@ export class Demo4 extends React.Component{
 }
 
 
+export class Demo5 extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      data: {
+        value:{
+          cpu:20,
+          mem:2048,
+          gpu:6
+        }
+      },
+      config:{cpu:100,mem:30,gpu:20},
+    }
+  }
+  onChange = (key,changeData,allData)=>{
+    console.log('onChange5 >>>> ',key,changeData,allData);
+    this.setState({
+      data:{...allData}
+    })
+  }
+  render(){
+    const {data,type, config,model} = this.state;
+    return (
+      <Resource
+        itemStyle={{width:400}}
+        type={"basic-slider-alone"}
+        data={data}
+        config={config}
+        onChange={this.onChange}>
+      </Resource>
+    )
+  }
+}
+
+
+export class Demo6 extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      data: {
+        apply: true,
+        value:{
+          driverCpu:5,
+          driverMem: 3,
+          executorCpu: 7,
+          executorMem: 2,
+          executorNum: 1
+        }
+      },
+      config:{driverCpu:100,driverMem:30,executorCpu:20,executorMem:30,executorNum:20},
+    }
+  }
+  onChange = (key,changeData,allData)=>{
+    console.log('onChange6 >>>> ',key,changeData,allData);
+    this.setState({
+      data:{...allData}
+    })
+  }
+  render(){
+    const {data,type, config,model} = this.state;
+    return (
+      <Resource
+        itemStyle={{width:400}}
+        type={"basic-slider-dist"}
+        data={data}
+        config={config}
+        onChange={this.onChange}>
+      </Resource>
+    )
+  }
+}
+
+export class Demo7 extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      data: {
+        apply:true,
+        value:{}
+      },
+      config:{cpu:100,mem:30,gpu:20},
+    }
+  }
+  onChange = (key,changeData,allData)=>{
+    console.log('onChange7 >>>> ',key,changeData,allData);
+    this.setState({
+      data:{...allData}
+    })
+  }
+  render(){
+    const {data, config} = this.state;
+    const applyRules = [
+      {
+        "id": "cf0a2917-b03f-4d25-bfd0-9e889e908811",
+        "name": "test3",
+        "typeId": 1,
+        "config": null,
+        "creator": "00000000-1111-0000-000a-000000000001",
+        "createdTime": "2020-03-13 18:02:17",
+        "lastUpdateTime": "2020-03-17 16:47:45",
+        "cpu": 3.0,
+        "mem": 1024.0,
+        "gpu": 0.0
+      },
+      {
+        "id": "2806561e-befd-482c-bf90-77285fa7114a",
+        "name": "test2",
+        "typeId": 1,
+        "config": null,
+        "creator": "00000000-1111-0000-000a-000000000001",
+        "createdTime": "2020-03-16 13:37:49",
+        "lastUpdateTime": "2020-03-16 13:37:49",
+        "cpu": 3.0,
+        "mem": 1024.0,
+        "gpu": 0.0
+      }
+    ];
+    return (
+      <Resource
+        itemStyle={{width:400}}
+        type={"slider-alone"}
+        data={data}
+        config={config}
+        applyRules={applyRules}
+        onChange={this.onChange}>
+      </Resource>
+    )
+  }
+}
+
+
+export class Demo8 extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      data: {
+        apply:true,
+        value:{}
+      },
+      config:{driverCpu:100,driverMem:30,executorCpu:20,executorMem:30,executorNum:20},
+    }
+  }
+  onChange = (key,changeData,allData)=>{
+    console.log('onChange8 >>>> ',key,changeData,allData);
+    this.setState({
+      data:{...allData}
+    })
+  }
+  render(){
+    const {data, config} = this.state;
+    const applyRules = [
+      {
+        "id": "b2c6bebe-c87c-44f9-9ae4-69b7412e8085",
+        "name": "test6",
+        "typeId": 2,
+        "config": "{\"{\\\"nodeSelector\\\":\\\"kubernetes.io/hostname\":\"172.20.51.16\\\"}\"}",
+        "creator": "00000000-1111-0000-000a-000000000001",
+        "createdTime": "2020-03-17 16:48:03",
+        "lastUpdateTime": "2020-03-17 16:48:03",
+        "dirverCpu": 10000.0,
+        "dirverMem": 4096.0,
+        "executorCpu": 1.0,
+        "executorMem": 1024.0,
+        "executorCount": 3
+      },
+      {
+        "id": "602fc6a9-0736-4ede-aed5-6dfe0aadac44",
+        "name": "test5",
+        "typeId": 2,
+        "config": "{\"nodeSelector\":\"kubernetes.io/hostname=172.20.51.16\"}",
+        "creator": "00000000-1111-0000-000a-000000000001",
+        "createdTime": "2020-03-16 15:44:06",
+        "lastUpdateTime": "2020-03-16 15:44:06",
+        "dirverCpu": 1.0,
+        "dirverMem": 1024.0,
+        "executorCpu": 1.0,
+        "executorMem": 1024.0,
+        "executorCount": 3
+      }
+    ]
+    return (
+      <Resource
+        itemStyle={{width:400}}
+        type={"slider-dist"}
+        data={data}
+        config={config}
+        applyRules={applyRules}
+        onChange={this.onChange}>
+      </Resource>
+    )
+  }
+}
