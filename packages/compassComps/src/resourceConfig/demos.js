@@ -1,5 +1,4 @@
 import React from 'react';
-import { Form } from 'antd';
 import Resource from '.';
 
 
@@ -26,7 +25,7 @@ export class Demo1 extends React.Component {
     const { data } = this.state;
     const config = {
       cpu: { max: 50, min: 1 },
-      mem: { max: 80*1024, min: 1*1024},
+      mem: { max: 80 * 1024, min: 1 * 1024 },
       gpu: { max: 50, min: 1 },
     };
     return (
@@ -51,9 +50,9 @@ export class Demo2 extends React.Component {
         apply: true,
         value: {
           driverCores: 50,
-          driverMemory: 3*1024,
+          driverMemory: 3 * 1024,
           executorCores: 70,
-          executorMemory: 2*1024,
+          executorMemory: 2 * 1024,
           executorNumber: 1,
         },
       },
@@ -71,9 +70,9 @@ export class Demo2 extends React.Component {
     const { data } = this.state;
     const config = {
       driverCores: { max: 30, min: 1 },
-      driverMemory: { max: 30*1024, min: 1*1024 },
+      driverMemory: { max: 30 * 1024, min: 1 * 1024 },
       executorCores: { max: 30, min: 1 },
-      executorMemory: { max: 30*1024, min: 1*1024 },
+      executorMemory: { max: 30 * 1024, min: 1 * 1024 },
       executorNumber: { max: 30, min: 1 },
     };
     return (
@@ -110,7 +109,7 @@ export class Demo3 extends React.Component {
     const { data } = this.state;
     const config = {
       cpu: { max: 50, min: 1 },
-      mem: { max: 50*1024, min: 1*1024 },
+      mem: { max: 50 * 1024, min: 1 * 1024 },
       gpu: { max: 50, min: 1 },
     };
     const applyRules = [
@@ -159,7 +158,7 @@ export class Demo4 extends React.Component {
     this.state = {
       data: {
         apply: true,
-        runModel:true,
+        runModel: true,
         value: {},
       },
     };
@@ -176,9 +175,9 @@ export class Demo4 extends React.Component {
     const { data } = this.state;
     const config = {
       driverCores: { max: 30, min: 1 },
-      driverMemory: { max: 30*1024, min: 1*1024 },
+      driverMemory: { max: 30 * 1024, min: 1 * 1024 },
       executorCores: { max: 30, min: 1 },
-      executorMemory: { max: 30*1024, min: 1*1024 },
+      executorMemory: { max: 30 * 1024, min: 1 * 1024 },
       executorNumber: { max: 30, min: 1 },
     };
     const applyRules = [
@@ -223,4 +222,3 @@ export class Demo4 extends React.Component {
     );
   }
 }
-

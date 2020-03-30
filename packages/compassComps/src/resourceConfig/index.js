@@ -1,6 +1,6 @@
 import React from 'react';
 import Pt from 'prop-types';
-import { Form, Input, InputNumber, Tooltip, Icon, Switch, Select, Row, Col } from 'antd';
+import { Form, Input, Tooltip, Icon, Switch, Select, Row, Col } from 'antd';
 import { ResourceBasic, ResourceFormBasic } from './ResourceBasic';
 import SliderResource from './slider';
 import styles from './index.less';
@@ -12,11 +12,11 @@ const _toFixed = (data = 0, num = 3) => {
 };
 
 const _formatValue = (key, config, value = 0) => {
-  let val = [config[key].min, config[key].max, value].sort((a, b) => (a - b))[1];
+  const val = [config[key].min, config[key].max, value].sort((a, b) => (a - b))[1];
   return {
     value: val,
-    error: val !== value
-  }
+    error: val !== value,
+  };
 };
 
 
@@ -34,15 +34,17 @@ const createForm = (component) => {
         fields.rule = Form.createFormField({ value: data.value.id });
       }
       Object.keys(config).forEach(key => {
-        let field = {},formatValue,dataValue = data.value[key] || '0';
+        const field = {};
+        let formatValue;
+        const dataValue = data.value[key] || '0';
         if (key === 'mem' || key.endsWith('Memory')) {
           formatValue = _formatValue(key, config, _toFixed(dataValue));
-          field.value = (formatValue.value)/1024;
-          field.errors = formatValue.error && data.value[key] ? [{message:`[${config[key].min}~${config[key].max}] : ${dataValue/1024} 值异常已调整为:${field.value}`}] :null;
-        }else {
+          field.value = (formatValue.value) / 1024;
+          field.errors = formatValue.error && data.value[key] ? [{ message: `[${config[key].min}~${config[key].max}] : ${dataValue / 1024} 值异常已调整为:${field.value}` }] : null;
+        } else {
           formatValue = _formatValue(key, config, dataValue);
           field.value = formatValue.value;
-          field.errors = formatValue.error && data.value[key] ? [{message:`[${config[key].min}~${config[key].max}] : ${dataValue} 值异常已调整为:${field.value}`}] :null;
+          field.errors = formatValue.error && data.value[key] ? [{ message: `[${config[key].min}~${config[key].max}] : ${dataValue} 值异常已调整为:${field.value}` }] : null;
         }
         fields[key] = Form.createFormField(field);
       });
@@ -73,10 +75,10 @@ export default class Resource extends React.Component {
     applyRules: Pt.array,
 
     /** 启用运行模式 */
-    runModel:Pt.bool,
+    runModel: Pt.bool,
 
     /** 启用高级配置 */
-    advanced:Pt.bool,
+    advanced: Pt.bool,
 
     /** 输入框的样式 设置 宽度默认值: 260px */
     itemStyle: Pt.object,
@@ -101,8 +103,8 @@ export default class Resource extends React.Component {
     type: 'basic-alone',
     config: {},
     applyRules: [],
-    runModel:true,
-    advanced:true,
+    runModel: true,
+    advanced: true,
     layout: {},
     sliderConf: { span: 20, offset: 4 },
     data: {
@@ -127,13 +129,13 @@ export default class Resource extends React.Component {
   }
 
   componentDidMount() {
-    const { form,data,config,onChange } = this.props;
+    const { form, data, config, onChange } = this.props;
     const resourceType = form ? ResourceBasic : createForm(ResourceFormBasic);
-    const newData = {...data,value:{...data.value}};
-    config && Object.keys(config).forEach(key=>{
-      newData.value[key] = _formatValue(key,config,newData.value[key]).value
+    const newData = { ...data, value: { ...data.value } };
+    config && Object.keys(config).forEach(key => {
+      newData.value[key] = _formatValue(key, config, newData.value[key]).value;
     });
-    onChange('validate',{value:newData.value},{...newData});
+    onChange('validate', { value: newData.value }, { ...newData });
     this.setState({
       resourceType,
     });
@@ -145,11 +147,11 @@ export default class Resource extends React.Component {
   }
 
   onChange=(key, e, currentForm) => {
-    const { data, onChange,config } = this.props;
+    const { data, onChange, config } = this.props;
     if (onChange) {
-      const val = e && e.currentTarget ?  _toFixed(Number(e.currentTarget.value)) : _toFixed(Number(e));
+      const val = e && e.currentTarget ? _toFixed(Number(e.currentTarget.value)) : _toFixed(Number(e));
       if (key === 'mem' || key.endsWith('Memory')) {
-        data.value[key] = val*1024;
+        data.value[key] = val * 1024;
       } else if (key === 'executorNumber') {
         data.value[key] = Math.floor(val);
       } else {
@@ -160,7 +162,7 @@ export default class Resource extends React.Component {
         currentForm.setFieldsValue({ [key]: val });
         onChange && currentForm.validateFields([key], (err) => {
           if (!err) {
-            onChange(key, {[key]:data.value[key]}, { ...data });
+            onChange(key, { [key]: data.value[key] }, { ...data });
           }
         });
       }, 0);
@@ -191,25 +193,27 @@ export default class Resource extends React.Component {
 
   runModelFn = (currentForm) => {
     const { runModel, itemStyle } = this.props;
-    return runModel ? <Form.Item
-      key="model"
-      label="运行模式"
-    >
-      {currentForm.getFieldDecorator('model', {
-        initialValue: 'jack',
-      })(
-        <Select
-          style={itemStyle}
-          placeholder="Select model"
-          optionFilterProp="children"
-          onChange={(val) => { this.onSelectModelChange('model', val); }}
-        >
-          <Select.Option key='AUTO' value="AUTO">智能加速模式</Select.Option>
-          <Select.Option key='JOB' value="JOB">经济模式</Select.Option>
-          <Select.Option key='BLOCK' value="BLOCK">稳健模式</Select.Option>
-        </Select>
-      )}
-    </Form.Item> : null;
+    return runModel ? (
+      <Form.Item
+        key="model"
+        label="运行模式"
+      >
+        {currentForm.getFieldDecorator('model', {
+          initialValue: 'jack',
+        })(
+          <Select
+            style={itemStyle}
+            placeholder="Select model"
+            optionFilterProp="children"
+            onChange={(val) => { this.onSelectModelChange('model', val); }}
+          >
+            <Select.Option key='AUTO' value="AUTO">智能加速模式</Select.Option>
+            <Select.Option key='JOB' value="JOB">经济模式</Select.Option>
+            <Select.Option key='BLOCK' value="BLOCK">稳健模式</Select.Option>
+          </Select>
+        )}
+      </Form.Item>
+    ) : null;
   }
 
   applyFn = (currentForm) => {
@@ -218,11 +222,11 @@ export default class Resource extends React.Component {
         key="apply"
         label={(
           <span>
-                  应用规格
-                  <Tooltip title="规格格式为: DriverCPU核数 | Driver内存| Executor CPU核数| Executor内存|Executor数量">
-                    <Icon type="info-circle" style={{ margin: '0px 5px' }} />
-                  </Tooltip>
-                </span>
+            应用规格
+            <Tooltip title="规格格式为: DriverCPU核数 | Driver内存| Executor CPU核数| Executor内存|Executor数量">
+              <Icon type="info-circle" style={{ margin: '0px 5px' }} />
+            </Tooltip>
+          </span>
         )}
       >
         {currentForm.getFieldDecorator('apply', {
@@ -235,7 +239,7 @@ export default class Resource extends React.Component {
           }}
         />)}
       </Form.Item>
-    )
+    );
   }
 
   advancedFn =(currentForm) => {
@@ -245,11 +249,11 @@ export default class Resource extends React.Component {
         key="advanced"
         label={(
           <span>
-                  高级配置
-                  <Tooltip title="配置SparkConf">
-                    <Icon type="info-circle" style={{ margin: '0px 5px' }} />
-                  </Tooltip>
-                </span>
+            高级配置
+            <Tooltip title="配置SparkConf">
+              <Icon type="info-circle" style={{ margin: '0px 5px' }} />
+            </Tooltip>
+          </span>
         )}
       >
         {
@@ -260,7 +264,7 @@ export default class Resource extends React.Component {
           )
         }
       </Form.Item>
-    ):null
+    ) : null;
   }
 
   ruleFn =(currentForm) => {
@@ -288,8 +292,8 @@ export default class Resource extends React.Component {
                     { item.config ? Object.keys(JSON.parse(item.config || '')).map(key => {
                       return (
                         <span className="optionsConfig" style={{ paddingLeft: 20 }} key={key}>
-                                {`${key} = ${JSON.parse(item.config || '')[key]}`}
-                              </span>
+                          {`${key} = ${JSON.parse(item.config || '')[key]}`}
+                        </span>
                       );
                     }) : []}
 
@@ -301,7 +305,7 @@ export default class Resource extends React.Component {
         }
 
       </Form.Item>
-    )
+    );
   }
 
 
@@ -311,7 +315,7 @@ export default class Resource extends React.Component {
     const layout = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
     const labelColSpan = layout.labelCol.span;
     const wrapperColSpan = layout.wrapperCol.span;
-    const sliderOffset = sliderConf.offset || sliderConf.offset == 0  ? sliderConf.offset : labelColSpan;
+    const sliderOffset = sliderConf.offset || sliderConf.offset === 0 ? sliderConf.offset : labelColSpan;
     let config = { ...resourceConfig };
     Object.keys(config).forEach(item => {
       config[item] = { ...config[item] } || {};
@@ -327,19 +331,19 @@ export default class Resource extends React.Component {
       sliderAloneBase: (currentForm) => (
         <React.Fragment>
           <Row>
-            <Col key={'cpu'} span={sliderConf.span || wrapperColSpan} offset={sliderOffset}>
+            <Col key="cpu" span={sliderConf.span || wrapperColSpan} offset={sliderOffset}>
               <Form.Item
                 key="cpu"
               >
                 {
                   currentForm.getFieldDecorator('cpu', {
                   })(
-                    <SliderResource disabled={disabled} max={config.cpu.max} min={config.cpu.min}  style={sliderStyle || itemStyle} title="CPU(Cores)" onChange={(val) => { this.onChange('cpu', val, currentForm); }} />
+                    <SliderResource disabled={disabled} max={config.cpu.max} min={config.cpu.min} style={sliderStyle || itemStyle} title="CPU(Cores)" onChange={(val) => { this.onChange('cpu', val, currentForm); }} />
                   )
                 }
               </Form.Item>
             </Col>
-            <Col key={'mem'} span={sliderConf.span || wrapperColSpan} offset={sliderOffset}>
+            <Col key="mem" span={sliderConf.span || wrapperColSpan} offset={sliderOffset}>
               <Form.Item
                 key="mem"
               >
@@ -352,7 +356,7 @@ export default class Resource extends React.Component {
                 }
               </Form.Item>
             </Col>
-            <Col key={'gpu'} span={sliderConf.span || wrapperColSpan} offset={sliderOffset}>
+            <Col key="gpu" span={sliderConf.span || wrapperColSpan} offset={sliderOffset}>
               <Form.Item
                 key="gpu"
 
@@ -448,26 +452,26 @@ export default class Resource extends React.Component {
       case 'basic-slider-alone':
         typesArr = (currentForm) => ([
           itemBase.sliderAloneBase(currentForm),
-          this.advancedFn(currentForm)
+          this.advancedFn(currentForm),
         ]);
         break;
       case 'basic-slider-dist':
         typesArr = (currentForm) => ([
           itemBase.sliderDistBase(currentForm),
-          this.advancedFn(currentForm)
+          this.advancedFn(currentForm),
         ]);
         break;
       case 'slider-alone':
         typesArr = apply ? (currentForm) => {
           return [
             this.applyFn(currentForm),
-            this.ruleFn(currentForm)
+            this.ruleFn(currentForm),
           ];
         } : (currentForm) => {
           return [
             this.applyFn(currentForm),
             itemBase.sliderAloneBase(currentForm),
-            this.advancedFn(currentForm)
+            this.advancedFn(currentForm),
           ];
         };
         break;
@@ -476,14 +480,14 @@ export default class Resource extends React.Component {
           return [
             this.runModelFn(currentForm),
             this.applyFn(currentForm),
-            this.ruleFn(currentForm)
+            this.ruleFn(currentForm),
           ];
         } : (currentForm) => {
           return [
             this.runModelFn(currentForm),
             this.applyFn(currentForm),
             itemBase.sliderDistBase(currentForm),
-            this.advancedFn(currentForm)
+            this.advancedFn(currentForm),
           ];
         };
         break;
@@ -493,9 +497,8 @@ export default class Resource extends React.Component {
     }
 
     if (!ResourceType) {
-      return <React.Fragment></React.Fragment>;
+      return <React.Fragment />;
     }
     return <ResourceType style={styles.resourceConfig} {...this.props} itemProps={typesArr} layout={layout} />;
   }
 }
-
