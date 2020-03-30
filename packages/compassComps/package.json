@@ -11,7 +11,7 @@
   "repository": "/compassComps",
   "scripts": {
     "dev": "father doc dev",
-    "build": "yarn build:doc",
+    "build": "father build ",
     "build:doc": "father doc build",
     "deploy": "father doc build && father doc deploy"
   },

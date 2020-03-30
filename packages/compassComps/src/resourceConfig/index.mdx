@@ -21,10 +21,11 @@ import Resource from './';
 
 
 
+
 ## basic-slider-alone Resource
 <Playground>
     {()=>{
-        return (<Demo5/>)
+        return (<Demo1/>)
     }}
 </Playground>
 
@@ -32,84 +33,25 @@ import Resource from './';
 ## slider-alone Resource
 <Playground>
     {()=>{
-        return (<Demo6/>)
+        return (<Demo2/>)
     }}
 </Playground>
 
 
 
 ## slider-alone Resource
-<Playground>
-    {()=>{
-        return (<Demo7/>)
-    }}
-</Playground>
-
-
-
-
-## slider-alone Resource
-<Playground>
-    {()=>{
-        return (<Demo8/>)
-    }}
-</Playground>
-
-
-
-## basic-alone Resource
-
-<Playground>
-    {()=>{
-        var init = { apply : false, type:'basic-alone',data:{cpu:20,mem:30,gpu:2},config:{cpu:50,mem:60,gpu:10}};
-        return (
-            <State initial={init}>
-               {({ state, setState }) => {
-                    return (
-                      <Demo1 type={state.type} data={{apply:state.apply,value:state.data}} config={state.config}/>
-                    )
-                 }}
-            </State>
-        )
-    }}
-</Playground>
-
-## basic-dis Resource
-<Playground>
-    {()=>{
-        var init = {
-          apply : false,
-          type:'basic-dis',
-          data:{driverCpu:20,driverMem:30,executorCpu:2,executorMem:12,executorNum:21},
-          config:{driverCpu:20,driverMem:30,executorCpu:2,executorMem:12,executorNum:21},
-        };
-        return (
-            <State initial={init}>
-               {({ state, setState }) => {
-                    return (
-                      <Demo2 type={state.type} data={{apply:state.apply,value:state.data}} config={state.config}/>
-                    )
-                 }}
-            </State>
-        )
-    }}
-</Playground>
-
-
-## alone Resource
 <Playground>
     {()=>{
         return (<Demo3/>)
     }}
 </Playground>
 
-## distributed Resource
+
+
+## slider-alone Resource
 <Playground>
     {()=>{
         return (<Demo4/>)
     }}
 </Playground>
-
-
-
 
