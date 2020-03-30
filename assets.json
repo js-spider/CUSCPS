@@ -1,9 +1,9 @@
 {
-  "vendors.css": "/static/css/vendors.7f3c30a2d1b88cfa5d6b.css",
-  "vendors.js": "/static/js/vendors.d50fb844.js",
-  "app.js": "/static/js/app.7f3c30a2d1b88cfa5d6b.js",
-  "src-button-index.js": "/static/js/src-button-index.364a7aa9.js",
-  "src-resource-config-index.css": "/static/css/src-resource-config-index.7f3c30a2d1b88cfa5d6b.css",
-  "src-resource-config-index.js": "/static/js/src-resource-config-index.77196ccc.js",
-  "index.html": "/index.html"
+  "vendors.css": "/CUSCPS/static/css/vendors.d98fad28a8046c5998ee.css",
+  "vendors.js": "/CUSCPS/static/js/vendors.d8217af3.js",
+  "app.js": "/CUSCPS/static/js/app.d98fad28a8046c5998ee.js",
+  "src-button-index.js": "/CUSCPS/static/js/src-button-index.364a7aa9.js",
+  "src-resource-config-index.css": "/CUSCPS/static/css/src-resource-config-index.d98fad28a8046c5998ee.css",
+  "src-resource-config-index.js": "/CUSCPS/static/js/src-resource-config-index.4416afca.js",
+  "index.html": "/CUSCPS/index.html"
 }
