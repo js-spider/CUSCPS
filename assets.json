@@ -1,9 +1,9 @@
 {
-  "vendors.css": "/static/css/vendors.61b54fb9f0ade59ce9b0.css",
+  "vendors.css": "/static/css/vendors.7f3c30a2d1b88cfa5d6b.css",
   "vendors.js": "/static/js/vendors.d50fb844.js",
-  "app.js": "/static/js/app.61b54fb9f0ade59ce9b0.js",
+  "app.js": "/static/js/app.7f3c30a2d1b88cfa5d6b.js",
   "src-button-index.js": "/static/js/src-button-index.364a7aa9.js",
-  "src-resource-config-index.css": "/static/css/src-resource-config-index.61b54fb9f0ade59ce9b0.css",
-  "src-resource-config-index.js": "/static/js/src-resource-config-index.b625b554.js",
+  "src-resource-config-index.css": "/static/css/src-resource-config-index.7f3c30a2d1b88cfa5d6b.css",
+  "src-resource-config-index.js": "/static/js/src-resource-config-index.77196ccc.js",
   "index.html": "/index.html"
 }
