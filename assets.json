@@ -1,12 +1,12 @@
 {
-  "vendors.css": "/CUSCPS/static/css/vendors.4885de944e3b710d6680.css",
+  "vendors.css": "/CUSCPS/static/css/vendors.31f12e2187abcd20f8aa.css",
   "vendors.js": "/CUSCPS/static/js/vendors.ee9ea263.js",
-  "app.js": "/CUSCPS/static/js/app.4885de944e3b710d6680.js",
+  "app.js": "/CUSCPS/static/js/app.31f12e2187abcd20f8aa.js",
   "src-button-index.js": "/CUSCPS/static/js/src-button-index.364a7aa9.js",
   "src-ellipsis-index.js": "/CUSCPS/static/js/src-ellipsis-index.8ab2fa5f.js",
   "src-input-index.js": "/CUSCPS/static/js/src-input-index.cd9f9a3d.js",
-  "src-resource-config-index.js": "/CUSCPS/static/js/src-resource-config-index.eb8e453d.js",
-  "src-select-table-index.css": "/CUSCPS/static/css/src-select-table-index.4885de944e3b710d6680.css",
-  "src-select-table-index.js": "/CUSCPS/static/js/src-select-table-index.3a51edfd.js",
+  "src-resource-config-index.js": "/CUSCPS/static/js/src-resource-config-index.1626b072.js",
+  "src-select-table-index.css": "/CUSCPS/static/css/src-select-table-index.31f12e2187abcd20f8aa.css",
+  "src-select-table-index.js": "/CUSCPS/static/js/src-select-table-index.574ba862.js",
   "index.html": "/CUSCPS/index.html"
 }
