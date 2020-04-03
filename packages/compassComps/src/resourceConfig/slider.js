@@ -12,7 +12,7 @@ class SliderResource extends React.Component {
   }
 
   render() {
-    const { style, title = '', width, step, max = 100, min = 0, disabled, sliderProps, inputNumberProps, value } = this.props;
+    const { style, title = '', width, step, max = 100, min = 0, disabled, sliderProps, inputNumberProps, value, titleConf = {} } = this.props;
     const styleProps = {
       width,
       ...style,
@@ -22,13 +22,13 @@ class SliderResource extends React.Component {
     return (
       <div style={styleProps}>
         <Row>
-          <Col span={12}>
+          <Col span={titleConf.span || 12}>
             <span style={{ display: 'inline-block', marginRight: 5, color: 'red' }}>*</span>
             <span style={{ color: '#10263A' }}>{titleContent}</span>
             <span style={{ display: 'inline-block', marginLeft: 5, fontSize: 12, color: '#10263A', opacity: 0.5 }}>{titleUnit}</span>
           </Col>
           <Col
-            span={12}
+            span={titleConf.span ? 24 - titleConf.span : 12}
             style={{
               textAlign: 'right',
               paddingRight: 3,
@@ -44,7 +44,7 @@ class SliderResource extends React.Component {
               min={min}
               disabled={disabled}
               style={{
-                width: 70,
+                width: titleConf.inputWidth || 70,
               }}
               {...inputNumberProps}
             />

@@ -15,43 +15,264 @@ import Resource from './';
 
 
 
+## basic-alone Resource
+<Playground>
+     {()=>(
+         <State initial={{
+            data: {
+              value: {
+                cpus: 0,
+                mem: 80 * 1024,
+                gpus: 0,
+              },
+            },
+          }}>
+           {({state, setState})=>{
+              onChange = (key, changeData, allData) => {
+                 console.log('onChange1 >>>> ', key, changeData, allData);
+                 setState({
+                   data: { ...allData },
+                 });
+              }
+              const { data } = state;
+              const config = {
+                cpus: { max: 50, min: 1 },
+                mem: { max: 80 * 1024, min: 1 * 1024 },
+                gpus: { max: 1020, min: 1 },
+              };
+              return (
+                <Resource
+                  sliderConf={{ span: 24, offset: 0 }}
+                  type="basic-alone"
+                  data={data}
+                  config={config}
+                  onChange={onChange}
+                />
+              );
+           }}
+         </State>
+      )}
+</Playground>
+
+
+## basic-dist Resource
+<Playground>
+  {()=>(
+     <State initial={{
+        data: {
+          apply: true,
+          value: {
+            driverCores: 50,
+            driverMemory: 3 * 1024,
+            executorCores: 70,
+            executorMemory: 2 * 1024,
+            executorNumber: 1,
+          },
+        },
+      }}>
+       {({state, setState})=>{
+          const { data } = state;
+          const config = {
+            driverCores: { max: 30, min: 1 },
+            driverMemory: { max: 30 * 1024, min: 1 * 1024 },
+            executorCores: { max: 30, min: 1 },
+            executorMemory: { max: 30 * 1024, min: 1 * 1024 },
+            executorNumber: { max: 30, min: 1 },
+          };
+          onChange = (key, changeData, allData) => {
+              console.log('onChange2 >>>> ', key, changeData, allData);
+              setState({
+                data: { ...allData },
+              });
+            }
+          return (
+            <Resource
+              sliderConf={{ span: 12, offset: 0, title: { span: 18, inputWidth: 60 } }}
+              type="basic-dist"
+              data={data}
+              config={config}
+              onChange={onChange}
+            />
+          );
+       }}
+     </State>
+  )}
+</Playground>
+
+
+
+## alone Resource
+<Playground>
+     {()=>(
+         <State initial={{
+            data: {
+              apply: true,
+              value: {},
+            },
+          }}>
+           {({state, setState})=>{
+              onChange = (key, changeData, allData) => {
+                console.log('onChange3 >>>> ', key, changeData, allData);
+                setState({
+                  data: { ...allData },
+                });
+              }
+              const { data } = state;
+                  const config = {
+                    cpus: { max: 50, min: 1 },
+                    mem: { max: 50 * 1024, min: 1 * 1024 },
+                    gpus: { max: 50, min: 1 },
+                  };
+                  const applyRules = [
+                    {
+                      id: 'cf0a2917-b03f-4d25-bfd0-9e889e908811',
+                      name: 'test3',
+                      typeId: 1,
+                      config: null,
+                      creator: '00000000-1111-0000-000a-000000000001',
+                      createdTime: '2020-03-13 18:02:17',
+                      lastUpdateTime: '2020-03-17 16:47:45',
+                      cpus: 3.0,
+                      mem: 1024.0,
+                      gpus: 0.0,
+                    },
+                    {
+                      id: '2806561e-befd-482c-bf90-77285fa7114a',
+                      name: 'test2',
+                      typeId: 1,
+                      config: null,
+                      creator: '00000000-1111-0000-000a-000000000001',
+                      createdTime: '2020-03-16 13:37:49',
+                      lastUpdateTime: '2020-03-16 13:37:49',
+                      cpus: 3.0,
+                      mem: 1024.0,
+                      gpus: 0.0,
+                    },
+                  ];
+                  return (
+                    <Resource
+                      itemStyle={{ width: 400 }}
+                      type="alone"
+                      data={data}
+                      config={config}
+                      applyRules={applyRules}
+                      onChange={onChange}
+                    />
+                  );
+           }}
+         </State>
+      )}
+</Playground>
+
+
+
+## dist Resource
+<Playground>
+     {()=>(
+         <State initial={{
+            data: {
+            apply: true,
+            runModel: true,
+            value: {},
+            model: 'JOB',
+          },
+         }}>
+         {({state, setState})=>{
+            onChange = (key, changeData, allData) => {
+              console.log('onChange4 >>>> ', key, changeData, allData);
+              setState({
+                data: { ...allData },
+              });
+            }
+            const { data } = state;
+                const config = {
+                  driverCores: { max: 30, min: 1 },
+                  driverMemory: { max: 30 * 1024, min: 1 * 1024 },
+                  executorCores: { max: 30, min: 1 },
+                  executorMemory: { max: 30 * 1024, min: 1 * 1024 },
+                  executorNumber: { max: 30, min: 1 },
+                };
+                const applyRules = [
+                  {
+                    id: 'b2c6bebe-c87c-44f9-9ae4-69b7412e8085',
+                    name: 'test6',
+                    typeId: 2,
+                    config: '{"{\\"nodeSelector\\":\\"kubernetes.io/hostname":"172.20.51.16\\"}"}',
+                    creator: '00000000-1111-0000-000a-000000000001',
+                    createdTime: '2020-03-17 16:48:03',
+                    lastUpdateTime: '2020-03-17 16:48:03',
+                    driverCores: 10000.0,
+                    driverMemory: 4096.0,
+                    executorCores: 1.0,
+                    executorMemory: 1024.0,
+                    executorNumber: 3,
+                  },
+                  {
+                    id: '602fc6a9-0736-4ede-aed5-6dfe0aadac44',
+                    name: 'test5',
+                    typeId: 2,
+                    config: '{"nodeSelector":"kubernetes.io/hostname=172.20.51.16"}',
+                    creator: '00000000-1111-0000-000a-000000000001',
+                    createdTime: '2020-03-16 15:44:06',
+                    lastUpdateTime: '2020-03-16 15:44:06',
+                    driverCores: 1.0,
+                    driverMemory: 1024.0,
+                    executorCores: 1.0,
+                    executorMemory: 1024.0,
+                    executorNumber: 3,
+                  },
+                ];
+                return (
+                  <Resource
+                    itemStyle={{ width: 400 }}
+                    type="dist"
+                    data={data}
+                    config={config}
+                    applyRules={applyRules}
+                    onChange={onChange}
+                  />
+                );
+         }}
+       </State>
+      )}
+</Playground>
+
+
+
 ## props
 
-<Props of={Resource}/>
+Resource的属性说明如下：
+
+属性 | 说明 | 类型 | 默认值
+-----|-----|-----|------
+type | 组件类型 | 'basic-alone','basic-dist','alone','dist' | 'basic-alone'
+config | 输入框的最大最小值 | {max:100,min:0 } | {}
+data   | 输入数据展示（初始数据） | Object 数据结构详情 | {}
+disabled | 表单禁用 | Boolean | false
+runModel | 是否显示运行模式 | Boolean | true
+advanced | 是否显示高级配置 | Boolean | true
+applyRules | 规格列表 | Array  | {}
+sliderConf | 滑块组件布局设置 | Object 详情 | { span: 20, offset: 4 }
+itemStyle | 组件样式设置 控制高宽等操作 | Object | { width: 320 }
+onChange | 组件变化 回调 | Function(key,changeObj,allData) | null
 
 
 
+Resource.data
 
-## basic-slider-alone Resource
-<Playground>
-    {()=>{
-        return (<Demo1/>)
-    }}
-</Playground>
-
-
-## slider-alone Resource
-<Playground>
-    {()=>{
-        return (<Demo2/>)
-    }}
-</Playground>
+属性 | 说明 | 类型 | 默认值
+-----|-----|-----|------
+value | 组件初始值内容展示 | Object {cpus,mem,gups ...} | {}
+model | 运行模式初始值设置（runModel:true 时有效） | string
+apply | 引用规格switch 是否开启 | Boolean | false
+rule | 已选择的应用规格 选择 applyRules 的子值 | String | ''
 
 
+Resource.sliderConf
 
-## slider-alone Resource
-<Playground>
-    {()=>{
-        return (<Demo3/>)
-    }}
-</Playground>
-
-
-
-## slider-alone Resource
-<Playground>
-    {()=>{
-        return (<Demo4/>)
-    }}
-</Playground>
+属性 | 说明 | 类型 | 默认值
+-----|-----|-----|------
+span | antd 栅格布局 span | string/number  | 20
+offset | antd 栅格布局 offset | string/number | 4
+title | 组件标题 布局设置 数据框宽度设置 | Object | { span: 12 , inputWidth:70 }
 

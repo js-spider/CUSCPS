@@ -19,6 +19,7 @@
     "react": "16.x"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
     "docz-theme-default": "^1.2.0",
     "father": "^2.16.0",
     "react-powerplug": "^1.0.0"

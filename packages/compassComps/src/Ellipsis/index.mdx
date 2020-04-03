@@ -1,0 +1,36 @@
+---
+menu: Bcomponents
+name: Ellipsis
+route: /Bcomponents/Ellipsis
+order: -1
+sidebar: true
+---
+
+import { Playground, Props } from 'docz';
+import { State } from 'react-powerplug';
+import Ellipsis from './';
+
+# Ellipsis Component
+
+
+
+
+## Ellipsis
+
+<Playground style={{minHeight:400}}>
+  {()=>{
+    return (
+      <div>
+         <p><Ellipsis value={'大王叫我来巡山呦，巡了南山巡北山'} max={16} /></p>
+         <p><Ellipsis value={'我爱北京tiananmen,tiananmen上红旗飘'}/></p>
+         <p><Ellipsis value={'Here are some quick tips for a first-time organization member.'} max={16} /></p>
+         <p><Ellipsis value={'大王叫我来巡山呦，巡了南山巡北山'} max={20} /></p>
+         <p><Ellipsis value={'我爱北京tiananmen,tiananmen上红旗飘'}/></p>
+         <p><Ellipsis value={'Here'} max={20} /></p>
+      </div>
+    )
+  }}
+</Playground>
+
+
+

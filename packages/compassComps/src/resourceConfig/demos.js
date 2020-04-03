@@ -8,7 +8,9 @@ export class Demo1 extends React.Component {
     this.state = {
       data: {
         value: {
-
+          cpus: 0,
+          mem: 80 * 1024,
+          gpus: 0,
         },
       },
     };
@@ -16,23 +18,23 @@ export class Demo1 extends React.Component {
 
   onChange = (key, changeData, allData) => {
     console.log('onChange1 >>>> ', key, changeData, allData);
-    // this.setState({
-    //   data: { ...allData },
-    // });
+    this.setState({
+      data: { ...allData },
+    });
   }
 
   render() {
     const { data } = this.state;
     const config = {
-      cpu: { max: 50, min: 1 },
+      cpus: { max: 50, min: 1 },
       mem: { max: 80 * 1024, min: 1 * 1024 },
-      gpu: { max: 50, min: 1 },
+      gpus: { max: 1020, min: 1 },
     };
     return (
       <Resource
         // itemStyle={{width:400}}
-        sliderConf={{ span: 12, offset: 0 }}
-        type="basic-slider-alone"
+        sliderConf={{ span: 24, offset: 0 }}
+        type="basic-alone"
         data={data}
         advanced={false}
         config={config}
@@ -77,8 +79,8 @@ export class Demo2 extends React.Component {
     };
     return (
       <Resource
-        itemStyle={{ width: 400 }}
-        type="basic-slider-dist"
+        sliderConf={{ span: 12, offset: 0, title: { span: 18, inputWidth: 60 } }}
+        type="basic-dist"
         data={data}
         config={config}
         onChange={this.onChange}
@@ -108,9 +110,9 @@ export class Demo3 extends React.Component {
   render() {
     const { data } = this.state;
     const config = {
-      cpu: { max: 50, min: 1 },
+      cpus: { max: 50, min: 1 },
       mem: { max: 50 * 1024, min: 1 * 1024 },
-      gpu: { max: 50, min: 1 },
+      gpus: { max: 50, min: 1 },
     };
     const applyRules = [
       {
@@ -121,9 +123,9 @@ export class Demo3 extends React.Component {
         creator: '00000000-1111-0000-000a-000000000001',
         createdTime: '2020-03-13 18:02:17',
         lastUpdateTime: '2020-03-17 16:47:45',
-        cpu: 3.0,
+        cpus: 3.0,
         mem: 1024.0,
-        gpu: 0.0,
+        gpus: 0.0,
       },
       {
         id: '2806561e-befd-482c-bf90-77285fa7114a',
@@ -133,15 +135,15 @@ export class Demo3 extends React.Component {
         creator: '00000000-1111-0000-000a-000000000001',
         createdTime: '2020-03-16 13:37:49',
         lastUpdateTime: '2020-03-16 13:37:49',
-        cpu: 3.0,
+        cpus: 3.0,
         mem: 1024.0,
-        gpu: 0.0,
+        gpus: 0.0,
       },
     ];
     return (
       <Resource
         itemStyle={{ width: 400 }}
-        type="slider-alone"
+        type="alone"
         data={data}
         config={config}
         applyRules={applyRules}
@@ -160,6 +162,7 @@ export class Demo4 extends React.Component {
         apply: true,
         runModel: true,
         value: {},
+        model: 'JOB',
       },
     };
   }
@@ -213,7 +216,7 @@ export class Demo4 extends React.Component {
     return (
       <Resource
         itemStyle={{ width: 400 }}
-        type="slider-dist"
+        type="dist"
         data={data}
         config={config}
         applyRules={applyRules}
