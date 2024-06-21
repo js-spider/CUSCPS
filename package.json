@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "husky": "^9.0.11",
     "lerna": "^3.20.2"
   },
   "dependencies": {
@@ -14,5 +15,8 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-hooks": "^1.6.0"
+  },
+  "scripts": {
+    "prepare": "husky"
   }
 }
