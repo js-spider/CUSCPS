@@ -9,12 +9,15 @@
 <!--   <meta http-equiv="refresh" content="0; url=https://example.com/real-content"> -->
 </head>
 <body>
+  <a id="share-container" style="position: fixed; top: 0; bottom: 0 ;left:0; right:0; z-index: 1000"></div>
   <script>
     // window.location.href = "https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421";
-    const ogRefresh = document.createElement('meta');
-    ogRefresh.setAttribute('http-equiv', 'refresh');
-    ogRefresh.content = "0; url=https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421"
-    document.head.appendChild(ogRefresh);
+    // const ogRefresh = document.createElement('meta');
+    // ogRefresh.setAttribute('http-equiv', 'refresh');
+    // ogRefresh.content = "0; url=https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421"
+    // document.head.appendChild(ogRefresh);
+    const node = document.getElementById('#share-container')
+    node.href = "https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421"
   </script>
 </body>
 </html>
