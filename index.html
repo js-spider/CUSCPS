@@ -10,6 +10,7 @@
 <!--   <meta property="og:description" content="您想显示的描述"> -->
   <!-- 关键元标签 -->
 <!-- <meta http-equiv="refresh" content="0; url=https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421"> -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   <a id="share-container" style="position: fixed; top: 0; bottom: 0 ;left:0; right:0; z-index: 1000;" href="https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421">
@@ -28,6 +29,11 @@
     //   // node.click()
     // }
     
+  </script>
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand(); // 展开WebApp全屏
+    tg.MainButton.show(); // 显示主按钮（可选）
   </script>
 </body>
 </html>
