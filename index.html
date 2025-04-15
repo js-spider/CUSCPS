@@ -1,39 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>内容分享</title>
-   <meta property="X-Telegram-Image" content="https://s3.ap-northeast-1.amazonaws.com/s3.toobit.com/plain/9001/46614472/t6pzE3pvY2jY0_VozhRmMaeaW32mVite2fPZLnhTlV4.png">
-<!--   <meta property="og:url" content="https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421"> -->
-<!--   <meta property="og:image" content="https://s3.ap-northeast-1.amazonaws.com/s3.toobit.com/plain/9001/46614472/t6pzE3pvY2jY0_VozhRmMaeaW32mVite2fPZLnhTlV4.png">
-  <meta property="og:title" content="您想显示的标题1"> -->
-
-<!--   <meta property="og:description" content="您想显示的描述"> -->
-  <!-- 关键元标签 -->
-<!-- <meta http-equiv="refresh" content="0; url=https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421"> -->
+  <title>Web App 测试页</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-  <a id="share-container" style="position: fixed; top: 0; bottom: 0 ;left:0; right:0; z-index: 1000;" href="https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421">
-    <img src="https://s3.ap-northeast-1.amazonaws.com/s3.toobit.com/plain/9001/46614472/t6pzE3pvY2jY0_VozhRmMaeaW32mVite2fPZLnhTlV4.png" width="800" height="400" alt="Preview" loading="eager"/>
-  </a>
   <script>
-    // window.location.href = "https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421";
-    // const ogRefresh = document.createElement('meta');
-    // ogRefresh.setAttribute('http-equiv', 'refresh');
-    // ogRefresh.content = "0; url=https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421"
-    // document.head.appendChild(ogRefresh);
-    // const node = document.getElementById('share-container')
-    // node.href = "https://t.me/tbPacketTest1_bot/app?startapp=e0dce89bb634485baca216d49172a421"
-    // // node.click()
-    // document.body.click = function(){
-    //   // node.click()
-    // }
-    
-  </script>
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand(); // 展开WebApp全屏
-    tg.MainButton.show(); // 显示主按钮（可选）
+    // 测试初始化
+    try {
+      Telegram.WebApp.ready();
+      console.log("SDK 加载成功");
+      console.log("当前平台:", Telegram.WebApp.platform);
+    } catch (e) {
+      console.error("SDK 加载失败", e);
+    }
   </script>
 </body>
 </html>
